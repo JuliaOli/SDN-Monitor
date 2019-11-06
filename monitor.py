@@ -3,9 +3,14 @@ import time
 import datetime
 from influxdb import InfluxDBClient
 import math
+import signal
+import sys
 
+from config import ONOS_IP, ONOS_PORT
 
-BASE_URL_API = 'http://localhost:8181/onos/v1'
+BASE_URL_API = 'http://{0}:{1}/onos/v1'.format(ONOS_IP, ONOS_PORT)
+
+#BASE_URL_API = 'http://localhost:8181/onos/v1'
 
 class APIMonitor(object):
     def __init__(self):        
@@ -14,7 +19,8 @@ class APIMonitor(object):
         #     Port: 8086
         #     Username: onos
         #     Password: onos.password (rocks/onos)
-        self.db_client = InfluxDBClient('localhost', 8086, 'onos', 'onos', 'onos') 
+        #InfluxDBClient(host, port, user, password, dbname
+        self.db_client = InfluxDBClient('localhost', 8086, 'onos', 'rocks', 'onos') 
         
         #Cria o banco de dados
         self.db_client.create_database('onos')
@@ -28,7 +34,7 @@ class APIMonitor(object):
         )
 
         data = res.json()
-
+ 
         for stats in data['statistics']:
             json_body = {
                 "measurement": "utilization",
@@ -51,8 +57,13 @@ class APIMonitor(object):
             self.db_client.write_points(json_body, time_precision='ms')
 
 
+def signal_handler(signal, frame):
+    sys.exit(0)
+
 if __name__ == '__main__':
     monitor = APIMonitor()
     while(True):
-        time.sleep(5)
+        time.sleep(20)
+        print('Sending...')
         monitor.get_stats()
+        signal.signal(signal.SIGINT, signal_handler)

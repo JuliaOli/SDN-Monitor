@@ -39,10 +39,11 @@ input()
 
 net.addController('rmController', controller=RemoteController,
                   ip='127.0.0.1', port=6633)
+                  #sudo lsof -i -P -n | grep LISTEN command to find the ports
 
 net.start()
 CLI(net)
-
+#Gerando trafego pela CLI
 # Before starting the simulation, run a ping all.
 """ while net.pingAll() > 0:
     continue
