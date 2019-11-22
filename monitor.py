@@ -6,11 +6,7 @@ import math
 import signal
 import sys
 
-from config import ONOS_IP, ONOS_PORT
-
-BASE_URL_API = 'http://{0}:{1}/onos/v1'.format(ONOS_IP, ONOS_PORT)
-
-#BASE_URL_API = 'http://localhost:8181/onos/v1'
+BASE_URL_API = 'http://localhost:8181/onos/v1'
 
 class APIMonitor(object):
     def __init__(self):        
@@ -54,16 +50,12 @@ class APIMonitor(object):
                                                math.ceil(stat["bytesSent"]/stat["durationSec"])
 
             json_body = [json_body, ]
+            print(json_body)
             self.db_client.write_points(json_body, time_precision='ms')
 
-
-def signal_handler(signal, frame):
-    sys.exit(0)
 
 if __name__ == '__main__':
     monitor = APIMonitor()
     while(True):
         time.sleep(20)
-        print('Sending...')
         monitor.get_stats()
-        signal.signal(signal.SIGINT, signal_handler)
