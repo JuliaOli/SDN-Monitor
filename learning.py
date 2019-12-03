@@ -9,10 +9,18 @@ import matplotlib.pyplot as plt
 
 data =  pd.read_csv("db/influx_database.csv")
 
-devices = list(set(data['device']))
-devices_time = pd.to_datetime(data['time'], unit='ms')
+devices_time = []
+# map returns Generator (remap an array into other) -> list convert generator to array
+# replace zeros in the end of the time transform the timestamp into datetime
+devices_time = list(map(lambda it: str(it).replace('000000000',''), data['time']))
+tempos = pd.to_datetime(devices_time, unit='s')
 
-print(devices_time)
+
+#for time in data['time'].values:
+#    time = str(time).replace('000000000', '')
+#    devices_time.append(pd.to_datetime(time, unit='ms'))
+#    print(time)
+
 
 #Data value plot according to time
 data[:200].boxplot(by='time', 
