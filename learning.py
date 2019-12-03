@@ -7,15 +7,14 @@ import numpy as np
 import seaborn
 import matplotlib.pyplot as plt
 
-
-data =  pd.read_csv("/home/mariajulia/Documentos/Github_repo/SDN-Monitor/db/influx_database.csv", delimiter = ';')
+data =  pd.read_csv("db/influx_database.csv")
 #https://machinelearningmastery.com/load-explore-time-series-data-python/
 #https://pandas.pydata.org/pandas-docs/version/0.22/generated/pandas.Series.from_csv.html
-ts = pd.Series(data, index=pd.date_range(start="2014-02-01", periods=n, freq="H"))
 
+devices = list(set(data['device']))
 
-fig, ax = plt.subplots(figsize=(12,5))
-seaborn.boxplot(ts.index.dayofyear, ts, ax=ax)
+#fig, ax = plt.subplots(figsize=(12,5))
+#seaborn.boxplot(ts.index.dayofyear, ts, ax=ax)
 # Read data from file 'filename.csv' 
 # (in the same directory that your python process is based)
 # Control delimiters, rows, column names with read_csv (see later) 
