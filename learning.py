@@ -4,19 +4,28 @@
 # Load the Pandas libraries with alias 'pd' 
 import pandas as pd 
 import numpy as np
-import seaborn
+import seaborn as sns
 import matplotlib.pyplot as plt
 
 data =  pd.read_csv("db/influx_database.csv")
-#https://machinelearningmastery.com/load-explore-time-series-data-python/
-#https://pandas.pydata.org/pandas-docs/version/0.22/generated/pandas.Series.from_csv.html
 
 devices = list(set(data['device']))
+devices_time = pd.to_datetime(data['time'], unit='ms')
 
-#fig, ax = plt.subplots(figsize=(12,5))
-#seaborn.boxplot(ts.index.dayofyear, ts, ax=ax)
-# Read data from file 'filename.csv' 
-# (in the same directory that your python process is based)
-# Control delimiters, rows, column names with read_csv (see later) 
+print(devices_time)
 
-# Preview the first 5 lines of the loaded data 
+#Data value plot according to time
+data[:200].boxplot(by='time', 
+                column=['value'], 
+                grid=False)
+
+plt.show()
+
+
+#bplot = sns.boxplot(y='lifeExp', x='continent', 
+                 #data= data['value'][:100], 
+                 #width=0.5,
+                 #palette="colorblind")
+
+#http://cmdlinetips.com/2018/03/how-to-make-boxplots-in-python-with-pandas-and-seaborn/
+#https://www.inf.ufsc.br/~marcelo.menezes.reis/Cap4.pdf
