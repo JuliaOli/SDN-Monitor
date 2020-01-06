@@ -15,8 +15,6 @@ geant_topo = GeantTopology(bw=bw)
 
 net = Mininet(topo=geant_topo, link=TCLink, controller=None, autoSetMacs=True)
 
-dc.setup(net.hosts, tenants)
-
 print('Configure your controller correctly before starting the simulation...')
 print('type <ENTER>')
 

@@ -15,6 +15,7 @@ devices_time = []
 devices_time = list(map(lambda it: str(it).replace('000000000',''), data['time']))
 tempos = pd.to_datetime(devices_time, unit='s')
 
+print(tempos)
 
 #for time in data['time'].values:
 #    time = str(time).replace('000000000', '')
@@ -22,7 +23,9 @@ tempos = pd.to_datetime(devices_time, unit='s')
 #    print(time)
 
 
-#Data value plot according to time
+
+
+#BOXPLOT: Data value plot according to time 
 data[:200].boxplot(by='time', 
                 column=['value'], 
                 grid=False)
@@ -30,10 +33,6 @@ data[:200].boxplot(by='time',
 plt.show()
 
 
-#bplot = sns.boxplot(y='lifeExp', x='continent', 
-                 #data= data['value'][:100], 
-                 #width=0.5,
-                 #palette="colorblind")
 
 #http://cmdlinetips.com/2018/03/how-to-make-boxplots-in-python-with-pandas-and-seaborn/
 #https://www.inf.ufsc.br/~marcelo.menezes.reis/Cap4.pdf

@@ -19,7 +19,7 @@ class APIMonitor(object):
         self.db_client = InfluxDBClient('localhost', 8086, 'onos', 'rocks', 'onos') 
         
         #Cria o banco de dados
-        self.db_client.create_database('onos')
+        self.db_client.create_database('onos_fattree')
         self.username = 'onos'
         self.password = 'rocks'
 
@@ -54,8 +54,8 @@ class APIMonitor(object):
             self.db_client.write_points(json_body, time_precision='ms')
 
 
-if __name__ == '__main__':
-    monitor = APIMonitor()
-    while(True):
-        time.sleep(20)
-        monitor.get_stats()
+# if __name__ == '__main__':
+#     monitor = APIMonitor()
+#     while(True):
+#         time.sleep(20)
+#         monitor.get_stats()
