@@ -7,6 +7,7 @@ import unittest
 import signal
 
 from monitor import APIMonitor
+from topology import FattreeTopology
 
 from mininet.net import Mininet
 from mininet.link import TCLink
@@ -19,6 +20,8 @@ bw = 10
 
 fattree = FattreeTopology(numEdgeSwitches=numEdgeSwitches, bw=bw,
                           hostsPerEdge=hostsPerEdge)
+
+net = Mininet(topo=fattree, link=TCLink, controller=None, autoSetMacs=True)
 
 def keyboardInterruptHandler(signal, frame):
     print("KeyboardInterrupt (ID: {1}) has been caught. Cleaning up...".format(signal))
