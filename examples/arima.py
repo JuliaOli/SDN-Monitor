@@ -1,4 +1,6 @@
-# A popular and widely used statistical 
+# https://machinelearningmastery.com/arima-for-time-series-forecasting-with-python/
+#
+#  A popular and widely used statistical 
 # method for time series forecasting is the ARIMA model.
 # 
 # ARIMA is an acronym that stands for AutoRegressive Integrated Moving Average.
@@ -16,8 +18,8 @@
 
 # The parameters of the ARIMA model are defined as follows:
 
-#     p: The number of lag observations (The lag length is how many terms back down the AR process you want to test for serial correlation)
-#        included in the model, also called the lag order.
+#     p: The number of lag observations included in the model, also called the lag order. 
+# 		 (The lag length is how many terms back down the AR process you want to test for serial correlation)
 #     d: The number of times that the raw observations are differenced, also called the degree of differencing.
 #     q: The size of the moving average window, also called the order of moving average.
 
@@ -26,6 +28,7 @@
 from pandas import read_csv
 from pandas import datetime
 from pandas.plotting import autocorrelation_plot
+from pandas import DataFrame
 
 from matplotlib import pyplot
 from statsmodels.tsa.arima_model import ARIMA
@@ -43,9 +46,11 @@ pyplot.show()
 
 # the time series is not stationary 
 # and will require differencing to make it stationary, at least a difference order of 1.
+# Stationary time series is when the mean and variance are constant over time. 
+# It is easier to predict when the series is stationary.
 
 #plots the autocorrelation for a large number of lags in the time series.
-
+# ACF plot
 autocorrelation_plot(series)
 pyplot.show()
 
@@ -62,7 +67,8 @@ pyplot.show()
 
 # fit model
 model = ARIMA(series, order=(5,1,0))
-model_fit = model.fit(disp=0)
+model_fit = model.fit(disp=0) #If True, convergence information is printed.
+# For the default l_bfgs_b solver, disp controls the frequency of the output during the iterations. disp < 0 means no output in this case.
 print(model_fit.summary())
 
 # plot residual errors
@@ -85,5 +91,6 @@ print(residuals.describe())
 # The distribution of the residual errors is displayed. 
 # The results show that indeed there is a bias in the prediction (a non-zero mean in the residuals).
 
+Rolling Forecast ARIMA Model
 
 
