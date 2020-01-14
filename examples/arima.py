@@ -32,6 +32,9 @@ from pandas import DataFrame
 
 from matplotlib import pyplot
 from statsmodels.tsa.arima_model import ARIMA
+from statsmodels.graphics.tsaplots import plot_acf
+from statsmodels.graphics.tsaplots import plot_pacf
+from sklearn.metrics import mean_squared_error
 
 # loading the Shampoo Sales dataset with Pandas
 # with a custom function to parse the date-time field
@@ -39,10 +42,9 @@ from statsmodels.tsa.arima_model import ARIMA
 def parser(x):
 	return datetime.strptime('190'+x, '%Y-%m')
  
-series = read_csv('db/shampoo_sales_example.csv', header=0, parse_dates=[0], index_col=0, squeeze=True, date_parser=parser)
+series = read_csv("/home/mj/Documentos/Git Lab repositories/Version_control_backup/Git/SDN-Monitor/examples/db/shampoo_sales_example.csv", header=0, parse_dates=[0], index_col=0, squeeze=True, date_parser=parser)
 print(series.head())
 series.plot()
-pyplot.show()
 
 # the time series is not stationary 
 # and will require differencing to make it stationary, at least a difference order of 1.
@@ -51,7 +53,9 @@ pyplot.show()
 
 #plots the autocorrelation for a large number of lags in the time series.
 # ACF plot
-autocorrelation_plot(series)
+plot_acf(series)
+plot_pacf(series)
+#autocorrelation_plot(series) #esse aqui é mais completo
 pyplot.show()
 
 # An ARIMA model can be created using the statsmodels library as follows:
@@ -91,6 +95,28 @@ print(residuals.describe())
 # The distribution of the residual errors is displayed. 
 # The results show that indeed there is a bias in the prediction (a non-zero mean in the residuals).
 
-Rolling Forecast ARIMA Model
+#Rolling forecast: predictions and residuals
 
+X = series.values
+size = int(len(X) * 0.66)
+train, test = X[0:size], X[size:len(X)]
+history = [x for x in train]
+predictions = list()
 
+for t in range(len(test)):
+	model = ARIMA(history, order=(5,1,0))
+	model_fit = model.fit(disp=0)
+	output = model_fit.forecast()
+	yhat = output[0]
+	predictions.append(yhat)
+	obs = test[t]
+	history.append(obs)
+	print('predicted=%f, expected=%f' % (yhat, obs))
+
+error = mean_squared_error(test, predictions)
+print('Test MSE: %.3f' % error)
+
+# plot
+pyplot.plot(test)
+pyplot.plot(predictions, color='red')
+pyplot.show()
