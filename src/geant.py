@@ -25,4 +25,4 @@ net.addController('rmController', controller=RemoteController,
                   
 net.start()
 CLI(net)
-#Gerando trafego pela CLI usando net.pingall() e net.iperf()
+# Generating traffic through the CLI using net.pingall () and net.iperf()

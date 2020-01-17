@@ -24,6 +24,8 @@ class APIMonitor(object):
         self.password = 'rocks'
 
     def get_stats(self):
+
+        print("vamos começar o request")
         res = requests.get(
             BASE_URL_API + '/statistics/delta/ports',
             auth=(self.username, self.password)

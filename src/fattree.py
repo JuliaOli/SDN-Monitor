@@ -50,7 +50,7 @@ while net.pingAll() > 0:
 # # Creating the threads
 # monitoring_thread = MonitoringThread(monitor, output)
 
-# # Before starting the threads, execute the testing.
+# # Before starting the ti pythonhreads, execute the testing.
 # runner = unittest.TextTestRunner()
 
 # def suite():
@@ -93,6 +93,7 @@ while net.pingAll() > 0:
 # monitoring_thread.join()
 # output.close()
 
+print("vamos pra o monitor")
 monitor = APIMonitor()
 while(True):
         time.sleep(20)
