@@ -9,23 +9,26 @@
 import pandas as pd
 import numpy as np
 import seaborn as sns
+import matplotlib
 
-from pandas import read_csv
+from pandas.plotting import autocorrelation_plot
+
 from pandas import datetime
 from pandas.plotting import autocorrelation_plot
 from pandas import DataFrame
 
-from matplotlib import pyplot
 from statsmodels.tsa.arima_model import ARIMA
+from statsmodels.graphics.tsaplots import plot_acf
+from statsmodels.graphics.tsaplots import plot_pacf
 
 class LearningTest:
     def __init__(self, dataAdress):
         self.data = dataAdress
-        # data =  read_csv("/home/mj/Documentos/Git Lab repositories/Version_control_backup/Git/SDN-Monitor/db/influx_database.csv")
+        self.series = pd.read_csv(self.data, delim_whitespace=True)
   
-    def autocorrelation_plots(self, data):
-        plot_acf(series)
-        plot_pacf(series)
+    def autocorrelation_plots(self, dt):
+        plot_acf(dt)
+        plot_pacf(dt)
         pyplot.show()
 
     def residuals_plots(self, model_fit):
@@ -54,8 +57,8 @@ class LearningTest:
         devices_time = []
         # map returns Generator (remap an array into other) -> list convert generator to array
         # replace zeros in the end of the time transform the timestamp into datetime
-        devices_time = list(map(lambda it: str(it).replace('000000000',''), data['time']))
-        tempos = pd.to_datetime(devices_time, unit='s')
+        #devices_time = list(map(lambda it: str(it).replace('000000000',''), data['time']))
+        tempos = pd.to_datetime(data, unit='s')
         return tempos
 
     def multiple_forecasting_arima(self, data, p, d, q):
@@ -89,3 +92,12 @@ class LearningTest:
         print('Test MSE: %.3f' % error)
         return error
 
+if __name__ == "__main__":
+    learning = LearningTest("/home/mj/Documentos/Git Lab repositories/Version_control_backup/Git/utilization.csv")
+    dt = learning.series.drop(['device', 'port'], axis=1)
+    time = learning.parser_influx_data(dt['time'])
+    print(time)
+    autocorrelation_plot(dt)
+#     while(True):
+#         time.sleep(20)
+#         monitor.get_stats()
