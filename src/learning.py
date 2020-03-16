@@ -9,7 +9,8 @@
 import pandas as pd
 import numpy as np
 import seaborn as sns
-import matplotlib
+import matplotlib.pyplot as plt
+
 
 from pandas.plotting import autocorrelation_plot
 
@@ -29,8 +30,7 @@ class LearningTest:
     def autocorrelation_plots(self, dt):
         plot_acf(dt)
         plot_pacf(dt)
-        pyplot.show()
-
+        plt.show()
     def residuals_plots(self, model_fit):
         # Residual of an observed value is the difference between the observed value 
         # and the estimated value of the quantity of interest (for example, a sample mean).
@@ -96,8 +96,8 @@ if __name__ == "__main__":
     learning = LearningTest("/home/mj/Documentos/Git Lab repositories/Version_control_backup/Git/utilization.csv")
     dt = learning.series.drop(['device', 'port'], axis=1)
     time = learning.parser_influx_data(dt['time'])
-    print(time)
-    autocorrelation_plot(dt)
+    print(dt)
+    learning.autocorrelation_plots(dt['value'])
 #     while(True):
 #         time.sleep(20)
 #         monitor.get_stats()
